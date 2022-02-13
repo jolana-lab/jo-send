@@ -1,6 +1,15 @@
-import { Injectable } from '@nestjs/common';
+import {
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Keypair } from '@solana/web3.js';
+import {
+  clusterApiUrl,
+  Connection,
+  Keypair,
+  LAMPORTS_PER_SOL,
+} from '@solana/web3.js';
 import { AES, enc } from 'crypto-js';
 import { Model } from 'mongoose';
 import { Wallet, WalletDocument } from './schemas/wallet.schema';
@@ -16,15 +25,44 @@ export class WalletService {
 
     const wallet = new this.walletModel({
       username,
+      publicKey: keypair.publicKey.toString(),
       secret,
     });
     return wallet.save();
   }
 
   async airdrop(username: string) {
+    // get wallet
     const wallet = await this.walletModel.findOne({ username });
-    const secret = AES.decrypt(wallet.secret, process.env.NONCE).toString(
-      enc.Utf8,
-    );
+    if (!wallet) {
+      throw new NotFoundException('Wallet not found');
+    }
+
+    // get keypair from secret
+    const secret = AES.decrypt(wallet.secret, process.env.NONCE)
+      .toString(enc.Utf8)
+      .split('-')
+      .map((key) => parseInt(key, 10));
+    const keypair = Keypair.fromSecretKey(Uint8Array.from(secret));
+
+    try {
+      const connection = new Connection(clusterApiUrl('devnet'));
+      // airdrop lamports
+      const airdropSignature = await connection.requestAirdrop(
+        keypair.publicKey,
+        LAMPORTS_PER_SOL,
+      );
+      await connection.confirmTransaction(airdropSignature);
+      const balance =
+        (await connection.getBalance(keypair.publicKey)) / LAMPORTS_PER_SOL;
+      return {
+        publicKey: keypair.publicKey.toString(),
+        balance: balance.toFixed(2) + ' SOL',
+      };
+    } catch (e) {
+      throw new InternalServerErrorException(
+        "Couldn't airdrop lamports on devnet",
+      );
+    }
   }
 }
