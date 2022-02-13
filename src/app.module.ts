@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import { MongooseModule } from '@nestjs/mongoose';
 import { WalletModule } from './wallet/wallet.module';
 
 @Module({
@@ -7,6 +8,7 @@ import { WalletModule } from './wallet/wallet.module';
     ConfigModule.forRoot({
       envFilePath: ['.local.env', '.production.env'],
     }),
+    MongooseModule.forRoot(process.env.DATABASE_PATH),
     WalletModule,
   ],
 })
