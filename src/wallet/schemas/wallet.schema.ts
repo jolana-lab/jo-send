@@ -7,6 +7,9 @@ export class Wallet {
   username: string;
 
   @Prop({ required: true })
+  publicKey: string;
+
+  @Prop({ required: true })
   secret: string;
 }
 
