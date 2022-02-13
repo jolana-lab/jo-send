@@ -7,6 +7,6 @@ export class WalletController {
 
   @Post('create')
   async create() {
-    await this.walletService.create();
+    await this.walletService.create('jo-send-local');
   }
 }
