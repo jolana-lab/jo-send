@@ -12,11 +12,13 @@ import {
 } from '@solana/web3.js';
 import { AES, enc } from 'crypto-js';
 import { Model } from 'mongoose';
+import { SolanaService } from '../solana/solana.service';
 import { Wallet, WalletDocument } from './schemas/wallet.schema';
 @Injectable()
 export class WalletService {
   constructor(
     @InjectModel(Wallet.name) private walletModel: Model<WalletDocument>,
+    private solanaService: SolanaService,
   ) {}
 
   async create(username: string): Promise<Wallet> {
