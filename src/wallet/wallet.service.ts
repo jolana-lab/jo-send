@@ -15,12 +15,17 @@ export class WalletService {
   ) {}
 
   async create(username: string): Promise<Wallet> {
-    const hasedKeypair = this.solanaService.generateHashedKeypair();
+    const createdAt = new Date();
+    const hasedKeypair = this.solanaService.generateHashedKeypair(
+      username,
+      createdAt,
+    );
 
     const wallet = new this.walletModel({
       username,
       publicKey: hasedKeypair.publicKey,
       secret: hasedKeypair.secret,
+      createdAt,
     });
     return wallet.save();
   }

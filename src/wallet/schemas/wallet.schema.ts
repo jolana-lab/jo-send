@@ -6,11 +6,14 @@ export class Wallet {
   @Prop({ required: true, unique: true, dropDups: true })
   username: string;
 
-  @Prop({ required: true })
+  @Prop({ required: true, unique: true, dropDups: true })
   publicKey: string;
 
   @Prop({ required: true })
   secret: string;
+
+  @Prop({ required: true })
+  createdAt: Date;
 }
 
 export type WalletDocument = Wallet & Document;
