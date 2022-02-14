@@ -7,7 +7,7 @@ import { SolanaModule } from './solana/solana.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
-      envFilePath: ['.local.env', '.production.env'],
+      envFilePath: ['.local.env', '.production.env', '.env'],
     }),
     MongooseModule.forRoot(process.env.DATABASE_PATH),
     WalletModule,
