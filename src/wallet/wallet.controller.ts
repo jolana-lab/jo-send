@@ -7,11 +7,15 @@ export class WalletController {
 
   @Post('create')
   async create() {
-    await this.walletService.create('jo-send-local');
+    const wallet = await this.walletService.create('jo-send-local');
+    return {
+      username: wallet.username,
+      publicKey: wallet.publicKey,
+    };
   }
 
   @Get('airdrop/:username')
   async airdrop(@Param('username') username: string) {
-    return this.walletService.airdrop(username);
+    return this.walletService.airdrop(username, 1);
   }
 }
