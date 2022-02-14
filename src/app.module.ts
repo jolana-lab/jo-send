@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { WalletModule } from './wallet/wallet.module';
-import { SolanaModule } from './solana/solana.module';
+import { BlockchainModule } from './blockchain/blockchain.module';
 
 @Module({
   imports: [
@@ -11,7 +11,7 @@ import { SolanaModule } from './solana/solana.module';
     }),
     MongooseModule.forRoot(process.env.DATABASE_PATH),
     WalletModule,
-    SolanaModule,
+    BlockchainModule,
   ],
 })
 export class AppModule {}

@@ -5,4 +5,4 @@ import { SolanaService } from './solana.service';
   providers: [SolanaService],
   exports: [SolanaService],
 })
-export class SolanaModule {}
+export class BlockchainModule {}

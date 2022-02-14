@@ -1,7 +1,7 @@
 import { getModelToken } from '@nestjs/mongoose';
 import { Test, TestingModule } from '@nestjs/testing';
-import { SolanaService } from '../solana/solana.service';
-import { SolanaServiceStub } from '../__mocks__/solana/solana.service.stub';
+import { SolanaService } from '../blockchain/solana.service';
+import { SolanaServiceStub } from '../__mocks__/blockchain/solana.service.stub';
 import {
   DUMMY_WALLET,
   WalletModelStub,

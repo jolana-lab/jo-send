@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { SolanaModule } from 'src/solana/solana.module';
+import { BlockchainModule } from 'src/blockchain/blockchain.module';
 import { Wallet, WalletSchema } from './schemas/wallet.schema';
 import { WalletController } from './wallet.controller';
 import { WalletService } from './wallet.service';
@@ -8,7 +8,7 @@ import { WalletService } from './wallet.service';
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: Wallet.name, schema: WalletSchema }]),
-    SolanaModule,
+    BlockchainModule,
   ],
   controllers: [WalletController],
   providers: [WalletService],

@@ -5,7 +5,7 @@ import {
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { SolanaService } from '../solana/solana.service';
+import { SolanaService } from '../blockchain/solana.service';
 import { Wallet, WalletDocument } from './schemas/wallet.schema';
 @Injectable()
 export class WalletService {
