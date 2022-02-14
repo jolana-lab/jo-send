@@ -16,13 +16,19 @@ import { AES, enc } from 'crypto-js';
 import { Wallet } from '../wallet/schemas/wallet.schema';
 @Injectable()
 export class SolanaService {
-  generateHashedKeypair(): { publicKey: string; secret: string } {
+  generateHashedKeypair(
+    username: string,
+    createdAt: Date,
+  ): {
+    publicKey: string;
+    secret: string;
+  } {
     const keypair = Keypair.generate();
     return {
       publicKey: keypair.publicKey.toString(),
       secret: AES.encrypt(
         keypair.secretKey.join('-'),
-        process.env.NONCE,
+        username + createdAt.toISOString() + process.env.NONCE,
       ).toString(),
     };
   }
@@ -30,7 +36,7 @@ export class SolanaService {
   async getBalance(
     wallet: Wallet,
   ): Promise<{ publicKey: string; balance: string }> {
-    const keypair = this.getKeypairFromSecret(wallet.secret);
+    const keypair = this.getKeypairFromSecret(wallet);
     try {
       const connection = this.getConnection();
       const balance =
@@ -55,7 +61,7 @@ export class SolanaService {
       throw new BadRequestException('SOL must be greater than 0.');
     }
 
-    const keypair = this.getKeypairFromSecret(wallet.secret);
+    const keypair = this.getKeypairFromSecret(wallet);
     try {
       const connection = this.getConnection();
       // airdrop lamports
@@ -71,8 +77,11 @@ export class SolanaService {
     }
   }
 
-  private getKeypairFromSecret(secret: string): Keypair {
-    const secretKey = AES.decrypt(secret, process.env.NONCE)
+  private getKeypairFromSecret(wallet: Wallet): Keypair {
+    const secretKey = AES.decrypt(
+      wallet.secret,
+      wallet.username + wallet.createdAt.toISOString() + process.env.NONCE,
+    )
       .toString(enc.Utf8)
       .split('-')
       .map((key) => parseInt(key, 10));
