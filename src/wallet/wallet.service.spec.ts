@@ -1,18 +1,66 @@
+import { getModelToken } from '@nestjs/mongoose';
 import { Test, TestingModule } from '@nestjs/testing';
+import { SolanaService } from '../solana/solana.service';
+import { SolanaServiceStub } from '../__mocks__/solana/solana.service.stub';
+import {
+  DUMMY_WALLET,
+  WalletModelStub,
+} from '../__mocks__/wallet/walletModule.stub';
+import { Wallet } from './schemas/wallet.schema';
 import { WalletService } from './wallet.service';
 
 describe('WalletService', () => {
-  let service: WalletService;
+  let walletService: WalletService;
+  let solanaService: SolanaService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [WalletService],
+      providers: [
+        WalletService,
+        {
+          provide: getModelToken(Wallet.name),
+          useValue: WalletModelStub,
+        },
+        { provide: SolanaService, useClass: SolanaServiceStub },
+      ],
     }).compile();
 
-    service = module.get<WalletService>(WalletService);
+    walletService = module.get<WalletService>(WalletService);
+    solanaService = module.get<SolanaService>(SolanaService);
   });
 
   it('should be defined', () => {
-    expect(service).toBeDefined();
+    expect(walletService).toBeDefined();
+    expect(solanaService).toBeDefined();
+  });
+
+  it('should create a wallet', async () => {
+    const expectedWallet = DUMMY_WALLET;
+    jest.spyOn(solanaService, 'generateHashedKeypair').mockReturnValue({
+      publicKey: expectedWallet.publicKey,
+      secret: expectedWallet.secret,
+    });
+
+    const wallet = await walletService.create(expectedWallet.username);
+    expect(wallet).toEqual(expectedWallet);
+  });
+
+  describe('airdrop 1 SOL to the wallet', () => {
+    it('should success', async () => {
+      const expectedResult = {
+        publicKey: 'publicKey',
+        balance: '1 SOL',
+      };
+      jest.spyOn(solanaService, 'airdrop').mockResolvedValue(null);
+      jest.spyOn(solanaService, 'getBalance').mockResolvedValue(expectedResult);
+
+      const result = await walletService.airdrop(DUMMY_WALLET.username);
+      expect(result).toEqual(expectedResult);
+    });
+    it('should handle wallet not found', async () => {
+      await expect(walletService.airdrop('not-found')).rejects.toThrow(
+        'Wallet not found',
+      );
+    });
   });
 });
