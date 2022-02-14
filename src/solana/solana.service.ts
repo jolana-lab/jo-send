@@ -1,5 +1,6 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import {
+  Cluster,
   clusterApiUrl,
   Connection,
   Keypair,
@@ -22,20 +23,12 @@ export class SolanaService {
     };
   }
 
-  getKeypairFromSecret(secret: string): Keypair {
-    const secretKey = AES.decrypt(secret, process.env.NONCE)
-      .toString(enc.Utf8)
-      .split('-')
-      .map((key) => parseInt(key, 10));
-    return Keypair.fromSecretKey(Uint8Array.from(secretKey));
-  }
-
   async getBalance(
     wallet: Wallet,
   ): Promise<{ publicKey: string; balance: string }> {
     const keypair = this.getKeypairFromSecret(wallet.secret);
     try {
-      const connection = new Connection(clusterApiUrl('devnet'));
+      const connection = this.getConnection();
       const balance =
         (await connection.getBalance(keypair.publicKey)) / LAMPORTS_PER_SOL;
       return {
@@ -56,7 +49,7 @@ export class SolanaService {
     const keypair = this.getKeypairFromSecret(wallet.secret);
 
     try {
-      const connection = new Connection(clusterApiUrl('devnet'));
+      const connection = this.getConnection();
       // airdrop lamports
       const airdropSignature = await connection.requestAirdrop(
         keypair.publicKey,
@@ -68,5 +61,17 @@ export class SolanaService {
         "Couldn't airdrop lamports on devnet",
       );
     }
+  }
+
+  private getKeypairFromSecret(secret: string): Keypair {
+    const secretKey = AES.decrypt(secret, process.env.NONCE)
+      .toString(enc.Utf8)
+      .split('-')
+      .map((key) => parseInt(key, 10));
+    return Keypair.fromSecretKey(Uint8Array.from(secretKey));
+  }
+
+  private getConnection(): Connection {
+    return new Connection(clusterApiUrl(process.env.SOLANA_NETWORK as Cluster));
   }
 }
