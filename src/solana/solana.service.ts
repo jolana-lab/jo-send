@@ -1,4 +1,8 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import {
   Cluster,
   clusterApiUrl,
@@ -46,8 +50,12 @@ export class SolanaService {
     wallet: Wallet,
     sol: number,
   ): Promise<RpcResponseAndContext<SignatureResult>> {
-    const keypair = this.getKeypairFromSecret(wallet.secret);
+    // validate sol
+    if (sol <= 0) {
+      throw new BadRequestException('SOL must be greater than 0.');
+    }
 
+    const keypair = this.getKeypairFromSecret(wallet.secret);
     try {
       const connection = this.getConnection();
       // airdrop lamports
