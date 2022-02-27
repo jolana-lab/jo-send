@@ -5,6 +5,10 @@ import { WalletService } from './wallet.service';
 export class WalletController {
   constructor(private readonly walletService: WalletService) {}
 
+  /**
+   * Temporary endpoint for creating a wallet
+   * REMOVE THIS WHEN YOU ARE READY TO DEPLOY
+   */
   @Post('create')
   async create() {
     const wallet = await this.walletService.create('jo-send-local');
