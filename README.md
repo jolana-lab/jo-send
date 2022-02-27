@@ -37,11 +37,22 @@ It's an Application that allows users **send cryto coins/token to friends on cha
 
 1. Update the App version
 
-   ```command
-   npm run version:<patch|minor|major>
-   ```
-
-   This command will do following stuff:
+   The following example shows how to create a **patch** version.
 
    1. update `CHANGELOG.md`
-   2. update `version` in `package.json`
+
+      ```command
+      changelog -p
+      ```
+
+      - patch: `-p`
+      - minor: `-m`
+      - major: `-M`
+
+      Then, commit the change.
+
+   2. update `version` in `package`
+
+      ```command
+      npm version <patch|minor|major>
+      ```
