@@ -28,7 +28,7 @@ describe('WalletController', () => {
       publicKey: DUMMY_WALLET.publicKey,
     };
     jest.spyOn(walletService, 'create').mockResolvedValue(DUMMY_WALLET);
-    const result = await controller.create();
+    const result = await controller.create(DUMMY_WALLET.username);
     expect(result).toEqual(expectedResult);
   });
 

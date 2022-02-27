@@ -9,9 +9,9 @@ export class WalletController {
    * Temporary endpoint for creating a wallet
    * REMOVE THIS WHEN YOU ARE READY TO DEPLOY
    */
-  @Post('create')
-  async create() {
-    const wallet = await this.walletService.create('jo-send-local');
+  @Post('create/:username')
+  async create(@Param('username') username: string) {
+    const wallet = await this.walletService.create(username);
     return {
       username: wallet.username,
       publicKey: wallet.publicKey,

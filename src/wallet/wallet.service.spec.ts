@@ -41,7 +41,7 @@ describe('WalletService', () => {
     });
     it('should handle wallet not found', async () => {
       await expect(walletService.get('not-found')).rejects.toThrow(
-        'Wallet not found',
+        'Wallet not found. username: not-found',
       );
     });
   });

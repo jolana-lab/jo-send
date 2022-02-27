@@ -17,7 +17,7 @@ export class WalletService {
   async get(username: string): Promise<Wallet> {
     const wallet = await this.walletModel.findOne({ username });
     if (!wallet) {
-      throw new NotFoundException('Wallet not found');
+      throw new NotFoundException('Wallet not found. username: ' + username);
     }
     return wallet;
   }
