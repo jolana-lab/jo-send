@@ -32,3 +32,16 @@ It's an Application that allows users **send cryto coins/token to friends on cha
    ```command
    npm run start:dev
    ```
+
+## Deployment
+
+1. Update the App version
+
+   ```command
+   npm run version:<patch|minor|major>
+   ```
+
+   This command will do following stuff:
+
+   1. update `CHANGELOG.md`
+   2. update `version` in `package.json`
