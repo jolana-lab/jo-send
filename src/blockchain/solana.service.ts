@@ -10,7 +10,10 @@ import {
   Keypair,
   LAMPORTS_PER_SOL,
   RpcResponseAndContext,
+  sendAndConfirmTransaction,
   SignatureResult,
+  SystemProgram,
+  Transaction,
 } from '@solana/web3.js';
 import { AES, enc } from 'crypto-js';
 import { Wallet } from '../wallet/schemas/wallet.schema';
@@ -73,6 +76,33 @@ export class SolanaService {
     } catch (e) {
       throw new InternalServerErrorException(
         "Couldn't airdrop lamports on devnet",
+      );
+    }
+  }
+
+  async sendSol(
+    fromWallet: Wallet,
+    toWallet: Wallet,
+    sol: number,
+  ): Promise<string> {
+    const fromKeypair = this.getKeypairFromSecret(fromWallet);
+    const toKeypair = this.getKeypairFromSecret(toWallet);
+
+    const transaction = new Transaction();
+    transaction.add(
+      SystemProgram.transfer({
+        fromPubkey: fromKeypair.publicKey,
+        toPubkey: toKeypair.publicKey,
+        lamports: sol * LAMPORTS_PER_SOL,
+      }),
+    );
+
+    try {
+      const connection = this.getConnection();
+      return sendAndConfirmTransaction(connection, transaction, [fromKeypair]);
+    } catch (e) {
+      throw new InternalServerErrorException(
+        "Couldn't send lamports on devnet",
       );
     }
   }
