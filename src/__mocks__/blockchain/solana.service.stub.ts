@@ -4,10 +4,14 @@ export class SolanaServiceStub {
   }
 
   async getBalance(): Promise<void> {
-    return new Promise(() => null);
+    return Promise.resolve();
   }
 
   async airdrop(): Promise<void> {
-    return new Promise(() => null);
+    return Promise.resolve();
+  }
+
+  async sendSol(): Promise<void> {
+    return Promise.resolve();
   }
 }

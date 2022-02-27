@@ -68,7 +68,7 @@ describe('SlackController', () => {
         user_name: 'username',
         text: '@username 1',
       };
-      const expectedResult = { status: 'success' };
+      const expectedResult = 'success';
       jest.spyOn(slackService, 'sendSol').mockResolvedValue(expectedResult);
 
       const result = await controller.sendSol(payload);
