@@ -12,5 +12,6 @@ import { WalletService } from './wallet.service';
   ],
   controllers: [WalletController],
   providers: [WalletService],
+  exports: [WalletService],
 })
 export class WalletModule {}
