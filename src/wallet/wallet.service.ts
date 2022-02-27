@@ -14,6 +14,14 @@ export class WalletService {
     private solanaService: SolanaService,
   ) {}
 
+  async get(username: string): Promise<Wallet> {
+    const wallet = await this.walletModel.findOne({ username });
+    if (!wallet) {
+      throw new NotFoundException('Wallet not found');
+    }
+    return wallet;
+  }
+
   async create(username: string): Promise<Wallet> {
     const createdAt = new Date();
     const hasedKeypair = this.solanaService.generateHashedKeypair(
@@ -42,10 +50,7 @@ export class WalletService {
       throw new BadRequestException('SOL must be greater than 0.');
     }
     // get wallet
-    const wallet = await this.walletModel.findOne({ username });
-    if (!wallet) {
-      throw new NotFoundException('Wallet not found');
-    }
+    const wallet = await this.get(username);
 
     await this.solanaService.airdrop(wallet, sol);
     return this.solanaService.getBalance(wallet);

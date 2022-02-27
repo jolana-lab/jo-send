@@ -14,8 +14,6 @@ export class WalletModelStub {
     if (payload.username !== DUMMY_WALLET.username) {
       return;
     }
-    return {
-      exec: () => DUMMY_WALLET,
-    };
+    return DUMMY_WALLET;
   }
 }

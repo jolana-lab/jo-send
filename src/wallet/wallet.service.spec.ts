@@ -34,6 +34,18 @@ describe('WalletService', () => {
     expect(solanaService).toBeDefined();
   });
 
+  describe('should get a wallet', () => {
+    it('should success', async () => {
+      const wallet = await walletService.get(DUMMY_WALLET.username);
+      expect(wallet.username).toEqual(DUMMY_WALLET.username);
+    });
+    it('should handle wallet not found', async () => {
+      await expect(walletService.get('not-found')).rejects.toThrow(
+        'Wallet not found',
+      );
+    });
+  });
+
   it('should create a wallet', async () => {
     const expectedWallet = DUMMY_WALLET;
     jest.spyOn(solanaService, 'generateHashedKeypair').mockReturnValue({
@@ -61,11 +73,6 @@ describe('WalletService', () => {
       await expect(
         walletService.airdrop(DUMMY_WALLET.username, -1),
       ).rejects.toThrow('SOL must be greater than 0.');
-    });
-    it('should handle wallet not found', async () => {
-      await expect(walletService.airdrop('not-found', 1)).rejects.toThrow(
-        'Wallet not found',
-      );
     });
   });
 });
