@@ -1,3 +1,9 @@
+#### 0.0.3 (2022-02-27)
+
+##### Documentation Changes
+
+*  show the steps to update app version (533a8cb4)
+
 #### 0.0.2 (2022-02-27)
 
 ##### Chores
