@@ -1,6 +1,8 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { SlackServiceStub } from '../__mocks__/slack/slack.service.stub';
 import { SendSolDto } from './dto/send-sol.dto';
+import { ErrorResponseContent } from './response-contents/error-response-content';
+import { OkResponseContent } from './response-contents/ok-response-content';
 import { SlackController } from './slack.controller';
 import { SlackService } from './slack.service';
 
@@ -28,9 +30,8 @@ describe('SlackController', () => {
         user_name: '',
         text: '@username 1',
       };
-      await expect(controller.sendSol(payload)).rejects.toThrow(
-        'SOL sender is required.',
-      );
+      const result = await controller.sendSol(payload);
+      expect(result).toBeInstanceOf(ErrorResponseContent);
     });
 
     it('should validate the payload text', async () => {
@@ -38,9 +39,8 @@ describe('SlackController', () => {
         user_name: 'username',
         text: '@username 1 extra stuff',
       };
-      await expect(controller.sendSol(payload)).rejects.toThrow(
-        'Invalid format. Please use `@user <sol-amount>`',
-      );
+      const result = await controller.sendSol(payload);
+      expect(result).toBeInstanceOf(ErrorResponseContent);
     });
 
     it('should validate the receiver format', async () => {
@@ -48,9 +48,8 @@ describe('SlackController', () => {
         user_name: 'username',
         text: 'username 1',
       };
-      await expect(controller.sendSol(payload)).rejects.toThrow(
-        'Invalid receiver format. Please make sure `@` in front of the username.',
-      );
+      const result = await controller.sendSol(payload);
+      expect(result).toBeInstanceOf(ErrorResponseContent);
     });
 
     it('should validate the sol amount', async () => {
@@ -58,9 +57,8 @@ describe('SlackController', () => {
         user_name: 'username',
         text: '@username rich',
       };
-      await expect(controller.sendSol(payload)).rejects.toThrow(
-        'Invalid SOL amount. It should be a number.',
-      );
+      const result = await controller.sendSol(payload);
+      expect(result).toBeInstanceOf(ErrorResponseContent);
     });
 
     it('success', async () => {
@@ -68,7 +66,7 @@ describe('SlackController', () => {
         user_name: 'username',
         text: '@username 1',
       };
-      const expectedResult = 'success';
+      const expectedResult = new OkResponseContent('OK');
       jest.spyOn(slackService, 'sendSol').mockResolvedValue(expectedResult);
 
       const result = await controller.sendSol(payload);
