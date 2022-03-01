@@ -19,7 +19,7 @@ It's an Application that allows users **send cryto coins/token to friends on cha
    ngrok http 3030
    ```
 
-   update the `Request URL` in the **[slack api](https://api.slack.com/apps/A032XLWRP3N/general)**
+   update the `Request URL` in the **slack api**
 
 2. start the local database
 
