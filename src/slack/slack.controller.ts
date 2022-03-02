@@ -1,5 +1,5 @@
 import { Body, Controller, Post } from '@nestjs/common';
-import { SendSolDto } from './dto/send-sol.dto';
+import { SlackCommandDto } from './dto/slack-command';
 import { ErrorResponseContent } from './response-contents/error-response-content';
 import { ResponseContent } from './response-contents/response-content';
 import { SlackService } from './slack.service';
@@ -9,7 +9,7 @@ export class SlackController {
   constructor(private slackService: SlackService) {}
 
   @Post('send-sol')
-  async sendSol(@Body() body: SendSolDto): Promise<ResponseContent> {
+  async sendSol(@Body() body: SlackCommandDto): Promise<ResponseContent> {
     const fromUsername = body.user_name;
     if (!fromUsername) {
       return new ErrorResponseContent('SOL sender is required.');

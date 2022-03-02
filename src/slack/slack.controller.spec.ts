@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { SlackServiceStub } from '../__mocks__/slack/slack.service.stub';
-import { SendSolDto } from './dto/send-sol.dto';
+import { SlackCommandDto } from './dto/slack-command';
 import { ErrorResponseContent } from './response-contents/error-response-content';
 import { OkResponseContent } from './response-contents/ok-response-content';
 import { SlackController } from './slack.controller';
@@ -26,7 +26,7 @@ describe('SlackController', () => {
 
   describe('should send sol', () => {
     it('should validate the sender', async () => {
-      const payload: SendSolDto = {
+      const payload: SlackCommandDto = {
         user_name: '',
         text: '@username 1',
       };
@@ -35,7 +35,7 @@ describe('SlackController', () => {
     });
 
     it('should validate the payload text', async () => {
-      const payload: SendSolDto = {
+      const payload: SlackCommandDto = {
         user_name: 'username',
         text: '@username 1 extra stuff',
       };
@@ -44,7 +44,7 @@ describe('SlackController', () => {
     });
 
     it('should validate the receiver format', async () => {
-      const payload: SendSolDto = {
+      const payload: SlackCommandDto = {
         user_name: 'username',
         text: 'username 1',
       };
@@ -53,7 +53,7 @@ describe('SlackController', () => {
     });
 
     it('should validate the sol amount', async () => {
-      const payload: SendSolDto = {
+      const payload: SlackCommandDto = {
         user_name: 'username',
         text: '@username rich',
       };
@@ -62,7 +62,7 @@ describe('SlackController', () => {
     });
 
     it('success', async () => {
-      const payload: SendSolDto = {
+      const payload: SlackCommandDto = {
         user_name: 'username',
         text: '@username 1',
       };
