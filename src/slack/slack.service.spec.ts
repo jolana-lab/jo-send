@@ -56,4 +56,26 @@ describe('SlackService', () => {
       expect(result).toBeInstanceOf(ErrorResponseContent);
     });
   });
+
+  describe('airdrop 1 SOL to the wallet', () => {
+    it('should success', async () => {
+      const expectedResult = new OkResponseContent(
+        `${DUMMY_WALLET.username} airdropped 1 SOL to the wallet.`,
+      );
+      jest.spyOn(solanaService, 'airdropSol').mockResolvedValue(null);
+
+      const result = await slackService.airdropSol(DUMMY_WALLET.username, 1);
+      expect(result).toEqual(expectedResult);
+    });
+    it('should hanld invaild sol', async () => {
+      const errorMessage = 'invalid sol';
+      const expectedResult = new ErrorResponseContent(errorMessage);
+      jest
+        .spyOn(solanaService, 'airdropSol')
+        .mockRejectedValue(new Error(errorMessage));
+
+      const result = await slackService.airdropSol(DUMMY_WALLET.username, 1);
+      expect(result).toEqual(expectedResult);
+    });
+  });
 });

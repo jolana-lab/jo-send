@@ -28,4 +28,16 @@ export class SlackService {
       return new ErrorResponseContent(e.message);
     }
   }
+
+  async airdropSol(username: string, sol: number): Promise<ResponseContent> {
+    try {
+      const wallet = await this.walletService.getOrCreate(username);
+      await this.solanaService.airdropSol(wallet, sol);
+      return new OkResponseContent(
+        `${username} airdropped ${sol} SOL to the wallet.`,
+      );
+    } catch (e) {
+      return new ErrorResponseContent(e.message);
+    }
+  }
 }
