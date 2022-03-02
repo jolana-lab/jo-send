@@ -38,21 +38,11 @@ export class WalletService {
     return wallet.save();
   }
 
-  async airdrop(
-    username: string,
-    sol: number,
-  ): Promise<{
-    publicKey: string;
-    balance: string;
-  }> {
-    // validate sol
-    if (sol <= 0) {
-      throw new BadRequestException('SOL must be greater than 0.');
+  async getOrCreate(username: string): Promise<Wallet> {
+    try {
+      return await this.get(username);
+    } catch (e) {
+      return await this.create(username);
     }
-    // get wallet
-    const wallet = await this.get(username);
-
-    await this.solanaService.airdrop(wallet, sol);
-    return this.solanaService.getBalance(wallet);
   }
 }

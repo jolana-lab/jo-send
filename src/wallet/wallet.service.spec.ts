@@ -56,4 +56,29 @@ describe('WalletService', () => {
     const wallet = await walletService.create(expectedWallet.username);
     expect(wallet).toEqual(expectedWallet);
   });
+
+  describe('should get or create a wallet', () => {
+    it('should get an existing wallet', async () => {
+      const expectedWallet = new Wallet();
+      jest
+        .spyOn(walletService, 'get')
+        .mockReturnValue(Promise.resolve(expectedWallet));
+
+      await walletService.getOrCreate(expectedWallet.username);
+      expect(walletService.get).toHaveBeenCalledTimes(1);
+    });
+    it('should create a new wallet', async () => {
+      const expectedWallet = new Wallet();
+      jest
+        .spyOn(walletService, 'get')
+        .mockRejectedValue(new Error('Wallet not found'));
+      jest
+        .spyOn(walletService, 'create')
+        .mockReturnValue(Promise.resolve(expectedWallet));
+
+      await walletService.getOrCreate(expectedWallet.username);
+      expect(walletService.get).toHaveBeenCalledTimes(1);
+      expect(walletService.create).toHaveBeenCalledTimes(1);
+    });
+  });
 });
