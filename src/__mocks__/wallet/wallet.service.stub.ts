@@ -3,7 +3,7 @@ export class WalletServiceStub {
     return Promise.resolve();
   }
 
-  async airdrop(): Promise<void> {
+  async getOrCreate(): Promise<void> {
     return Promise.resolve();
   }
 

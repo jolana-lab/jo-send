@@ -55,7 +55,7 @@ export class SolanaService {
     }
   }
 
-  async airdrop(
+  async airdropSol(
     wallet: Wallet,
     sol: number,
   ): Promise<RpcResponseAndContext<SignatureResult>> {

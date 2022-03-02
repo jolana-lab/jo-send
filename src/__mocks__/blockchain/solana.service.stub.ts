@@ -7,7 +7,7 @@ export class SolanaServiceStub {
     return Promise.resolve();
   }
 
-  async airdrop(): Promise<void> {
+  async airdropSol(): Promise<void> {
     return Promise.resolve();
   }
 
