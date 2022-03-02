@@ -31,11 +31,4 @@ describe('WalletController', () => {
     const result = await controller.create(DUMMY_WALLET.username);
     expect(result).toEqual(expectedResult);
   });
-
-  it('should airdrop 1 SOL to a wallet', async () => {
-    const expectedResult = { publicKey: 'publicKey', balance: '1' };
-    jest.spyOn(walletService, 'airdrop').mockResolvedValue(expectedResult);
-    const result = await controller.airdrop(DUMMY_WALLET.username);
-    expect(result).toEqual(expectedResult);
-  });
 });

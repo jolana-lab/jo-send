@@ -56,23 +56,4 @@ describe('WalletService', () => {
     const wallet = await walletService.create(expectedWallet.username);
     expect(wallet).toEqual(expectedWallet);
   });
-
-  describe('airdrop 1 SOL to the wallet', () => {
-    it('should success', async () => {
-      const expectedResult = {
-        publicKey: 'publicKey',
-        balance: '1 SOL',
-      };
-      jest.spyOn(solanaService, 'airdrop').mockResolvedValue(null);
-      jest.spyOn(solanaService, 'getBalance').mockResolvedValue(expectedResult);
-
-      const result = await walletService.airdrop(DUMMY_WALLET.username, 1);
-      expect(result).toEqual(expectedResult);
-    });
-    it('should hanld invaild sol', async () => {
-      await expect(
-        walletService.airdrop(DUMMY_WALLET.username, -1),
-      ).rejects.toThrow('SOL must be greater than 0.');
-    });
-  });
 });

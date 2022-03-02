@@ -17,9 +17,4 @@ export class WalletController {
       publicKey: wallet.publicKey,
     };
   }
-
-  @Get('airdrop/:username')
-  async airdrop(@Param('username') username: string) {
-    return this.walletService.airdrop(username, 1);
-  }
 }
