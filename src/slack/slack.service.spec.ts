@@ -41,7 +41,7 @@ describe('SlackService', () => {
         `${fromUsername} sent ${sol} SOL to ${toUsername}`,
       );
 
-      jest.spyOn(walletService, 'get').mockResolvedValue(DUMMY_WALLET);
+      jest.spyOn(walletService, 'getOrCreate').mockResolvedValue(DUMMY_WALLET);
       jest.spyOn(solanaService, 'sendSol').mockResolvedValue('OK');
 
       const result = await slackService.sendSol(fromUsername, toUsername, sol);
@@ -49,7 +49,9 @@ describe('SlackService', () => {
     });
 
     it('should handler internal error', async () => {
-      jest.spyOn(walletService, 'get').mockRejectedValue(new Error('error'));
+      jest
+        .spyOn(walletService, 'getOrCreate')
+        .mockRejectedValue(new Error('error'));
       const result = await slackService.sendSol(fromUsername, toUsername, sol);
       expect(result).toBeInstanceOf(ErrorResponseContent);
     });

@@ -18,8 +18,8 @@ export class SlackService {
     sol: number,
   ): Promise<ResponseContent> {
     try {
-      const fromWallet = await this.walletService.get(fromUsername);
-      const toWallet = await this.walletService.get(toUsername);
+      const fromWallet = await this.walletService.getOrCreate(fromUsername);
+      const toWallet = await this.walletService.getOrCreate(toUsername);
       await this.solanaService.sendSol(fromWallet, toWallet, sol);
       return new OkResponseContent(
         `${fromUsername} sent ${sol} SOL to ${toUsername}`,
