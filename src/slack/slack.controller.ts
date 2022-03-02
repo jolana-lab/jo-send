@@ -15,7 +15,7 @@ export class SlackController {
       return new ErrorResponseContent('SOL sender is required.');
     }
 
-    const contents = body.text.split(' ');
+    const contents = body.text.trim().split(' ');
     if (contents.length !== 2) {
       return new ErrorResponseContent(
         'Invalid format. Please use `@user <sol-amount>`',
@@ -38,5 +38,30 @@ export class SlackController {
     }
 
     return await this.slackService.sendSol(fromUsername, toUsername, solNumber);
+  }
+
+  @Post('airdrop-sol')
+  async airdropSol(@Body() body: SlackCommandDto): Promise<ResponseContent> {
+    const fromUsername = body.user_name;
+    if (!fromUsername) {
+      return new ErrorResponseContent('SOL sender is required.');
+    }
+
+    const contents = body.text.trim().split(' ');
+    if (contents.length !== 1) {
+      return new ErrorResponseContent(
+        'Invalid format. Please use `<sol-amount>`',
+      );
+    }
+
+    const [sol] = contents;
+    const solNumber = Number(sol);
+    if (isNaN(solNumber)) {
+      return new ErrorResponseContent(
+        'Invalid SOL amount. It should be a number.',
+      );
+    }
+
+    return await this.slackService.airdropSol(fromUsername, solNumber);
   }
 }

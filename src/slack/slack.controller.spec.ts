@@ -73,4 +73,45 @@ describe('SlackController', () => {
       expect(result).toEqual(expectedResult);
     });
   });
+
+  describe('should airdrop sol', () => {
+    it('should validate the sender', async () => {
+      const payload: SlackCommandDto = {
+        user_name: '',
+        text: '1',
+      };
+      const result = await controller.airdropSol(payload);
+      expect(result).toBeInstanceOf(ErrorResponseContent);
+    });
+
+    it('should validate the payload text', async () => {
+      const payload: SlackCommandDto = {
+        user_name: 'username',
+        text: '1 extra stuff',
+      };
+      const result = await controller.airdropSol(payload);
+      expect(result).toBeInstanceOf(ErrorResponseContent);
+    });
+
+    it('should validate the sol amount', async () => {
+      const payload: SlackCommandDto = {
+        user_name: 'username',
+        text: 'rich',
+      };
+      const result = await controller.airdropSol(payload);
+      expect(result).toBeInstanceOf(ErrorResponseContent);
+    });
+
+    it('success', async () => {
+      const payload: SlackCommandDto = {
+        user_name: 'username',
+        text: '1',
+      };
+      const expectedResult = new OkResponseContent('OK');
+      jest.spyOn(slackService, 'airdropSol').mockResolvedValue(expectedResult);
+
+      const result = await controller.airdropSol(payload);
+      expect(result).toEqual(expectedResult);
+    });
+  });
 });
