@@ -1,12 +1,14 @@
+import { InjectQueue } from '@nestjs/bull';
 import { Body, Controller, Post } from '@nestjs/common';
+import { Queue } from 'bull';
 import { SlackCommandDto } from './dto/slack-command';
 import { ErrorResponseContent } from './response-contents/error-response-content';
+import { OkResponseContent } from './response-contents/ok-response-content';
 import { ResponseContent } from './response-contents/response-content';
-import { SlackService } from './slack.service';
 
 @Controller('slack')
 export class SlackController {
-  constructor(private slackService: SlackService) {}
+  constructor(@InjectQueue('slack') private readonly slackQueue: Queue) {}
 
   @Post('send-sol')
   async sendSol(@Body() body: SlackCommandDto): Promise<ResponseContent> {
@@ -37,13 +39,24 @@ export class SlackController {
       );
     }
 
-    return await this.slackService.sendSol(fromUsername, toUsername, solNumber);
+    try {
+      await this.slackQueue.add('send-sol', {
+        fromUsername,
+        toUsername,
+        sol: solNumber,
+      });
+      return new OkResponseContent(
+        `${fromUsername} sent ${sol} SOL to ${toUsername}`,
+      );
+    } catch (e) {
+      return new ErrorResponseContent(e.message);
+    }
   }
 
   @Post('airdrop-sol')
   async airdropSol(@Body() body: SlackCommandDto): Promise<ResponseContent> {
-    const fromUsername = body.user_name;
-    if (!fromUsername) {
+    const username = body.user_name;
+    if (!username) {
       return new ErrorResponseContent('SOL sender is required.');
     }
 
@@ -62,6 +75,16 @@ export class SlackController {
       );
     }
 
-    return await this.slackService.airdropSol(fromUsername, solNumber);
+    try {
+      await this.slackQueue.add('airdrop-sol', {
+        username,
+        sol: solNumber,
+      });
+      return new OkResponseContent(
+        `${username} airdropped ${sol} SOL to the wallet.`,
+      );
+    } catch (e) {
+      return new ErrorResponseContent(e.message);
+    }
   }
 }

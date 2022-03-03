@@ -5,6 +5,7 @@ import { WalletModule } from './wallet/wallet.module';
 import { BlockchainModule } from './blockchain/blockchain.module';
 import { SlackModule } from './slack/slack.module';
 import { BullModule } from '@nestjs/bull';
+import { SlackProcessor } from './slack/slack.processor';
 
 @Module({
   imports: [
@@ -22,5 +23,6 @@ import { BullModule } from '@nestjs/bull';
     BlockchainModule,
     SlackModule,
   ],
+  providers: [SlackProcessor],
 })
 export class AppModule {}
