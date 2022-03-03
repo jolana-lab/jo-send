@@ -1,23 +1,19 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { SlackServiceStub } from '../__mocks__/slack/slack.service.stub';
 import { SlackCommandDto } from './dto/slack-command';
 import { ErrorResponseContent } from './response-contents/error-response-content';
 import { OkResponseContent } from './response-contents/ok-response-content';
 import { SlackController } from './slack.controller';
-import { SlackService } from './slack.service';
 
 describe('SlackController', () => {
   let controller: SlackController;
-  let slackService: SlackService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [SlackController],
-      providers: [{ provide: SlackService, useClass: SlackServiceStub }],
+      providers: [],
     }).compile();
 
     controller = module.get<SlackController>(SlackController);
-    slackService = module.get<SlackService>(SlackService);
   });
 
   it('should be defined', () => {
@@ -67,7 +63,6 @@ describe('SlackController', () => {
         text: '@username 1',
       };
       const expectedResult = new OkResponseContent('OK');
-      jest.spyOn(slackService, 'sendSol').mockResolvedValue(expectedResult);
 
       const result = await controller.sendSol(payload);
       expect(result).toEqual(expectedResult);
@@ -108,7 +103,6 @@ describe('SlackController', () => {
         text: '1',
       };
       const expectedResult = new OkResponseContent('OK');
-      jest.spyOn(slackService, 'airdropSol').mockResolvedValue(expectedResult);
 
       const result = await controller.airdropSol(payload);
       expect(result).toEqual(expectedResult);
