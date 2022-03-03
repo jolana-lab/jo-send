@@ -11,7 +11,7 @@ import { BullModule } from '@nestjs/bull';
     ConfigModule.forRoot({
       envFilePath: ['.local.env', '.production.env', '.env'],
     }),
-    MongooseModule.forRoot(process.env.DATABASE_PATH),
+    MongooseModule.forRoot(process.env.MONGODB_PATH),
     BullModule.forRoot({
       redis: {
         host: 'localhost',
