@@ -39,18 +39,14 @@ export class SlackController {
       );
     }
 
-    try {
-      await this.slackQueue.add('send-sol', {
-        fromUsername,
-        toUsername,
-        sol: solNumber,
-      });
-      return new OkResponseContent(
-        `${fromUsername} sent ${sol} SOL to ${toUsername}`,
-      );
-    } catch (e) {
-      return new ErrorResponseContent(e.message);
-    }
+    await this.slackQueue.add('send-sol', {
+      fromUsername,
+      toUsername,
+      sol: solNumber,
+    });
+    return new OkResponseContent(
+      `${fromUsername} sent ${sol} SOL to ${toUsername}`,
+    );
   }
 
   @Post('airdrop-sol')
@@ -75,16 +71,12 @@ export class SlackController {
       );
     }
 
-    try {
-      await this.slackQueue.add('airdrop-sol', {
-        username,
-        sol: solNumber,
-      });
-      return new OkResponseContent(
-        `${username} airdropped ${sol} SOL to the wallet.`,
-      );
-    } catch (e) {
-      return new ErrorResponseContent(e.message);
-    }
+    await this.slackQueue.add('airdrop-sol', {
+      username,
+      sol: solNumber,
+    });
+    return new OkResponseContent(
+      `${username} airdropped ${sol} SOL to the wallet.`,
+    );
   }
 }
