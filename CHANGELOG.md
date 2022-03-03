@@ -1,3 +1,29 @@
+#### 0.0.4 (2022-03-03)
+
+##### Documentation Changes
+
+*  add Commit Message Format (386f25f7)
+
+##### New Features
+
+*  create airdropSol in slack controller (88c27d7e)
+*  implement airdropSol in slack service (67b972b7)
+*  slack sendSol uses getOrCreate function of wallet (bf269dee)
+*  implement get or create a wallet (5664ad5f)
+*  remove wallet airdrop (5ffd0a87)
+*  complete sendSol in slack service (a90984ad)
+*  only collect coverage from services and controllers (b3273cef)
+*  create slack response content (29daf60d)
+
+##### Bug Fixes
+
+*  return 200 response with error content (0a98f23e)
+
+##### Refactors
+
+*  sendSolDto to slackCommandDto (4676aaf1)
+*  airdrop to airdropSol (e6e1cafa)
+
 #### 0.0.3 (2022-02-27)
 
 ##### Documentation Changes
