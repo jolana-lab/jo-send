@@ -37,3 +37,6 @@ lerna-debug.log*
 # Environment variable
 .local.env
 .production.env
+
+# dumps
+dump.rdb
