@@ -4,6 +4,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { WalletModule } from './wallet/wallet.module';
 import { BlockchainModule } from './blockchain/blockchain.module';
 import { SlackModule } from './slack/slack.module';
+import { BullModule } from '@nestjs/bull';
 
 @Module({
   imports: [
@@ -11,6 +12,12 @@ import { SlackModule } from './slack/slack.module';
       envFilePath: ['.local.env', '.production.env', '.env'],
     }),
     MongooseModule.forRoot(process.env.DATABASE_PATH),
+    BullModule.forRoot({
+      redis: {
+        host: 'localhost',
+        port: 6379,
+      },
+    }),
     WalletModule,
     BlockchainModule,
     SlackModule,
