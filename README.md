@@ -13,25 +13,33 @@ It's an Application that allows users **send cryto coins/token to friends on cha
 
 ## Development
 
-1. open development proxy (Optional)
+1.  start the local databases
 
-   ```command
-   ngrok http 3030
-   ```
+    - mongodb
 
-   update the `Request URL` in the **slack api**
+      ```command
+      brew services start mongodb-community@5.0
+      ```
 
-2. start the local database
+    - redis
 
-   ```command
-   brew services start mongodb-community@5.0
-   ```
+      ```command
+      redis-server
+      ```
 
-3. run nest dev server
+2.  run nest dev server
 
-   ```command
-   npm run start:dev
-   ```
+    ```command
+    npm run start:dev
+    ```
+
+3.  open development proxy (Optional)
+
+    ```command
+    ngrok http 3030
+    ```
+
+    update the `Request URL` in the **slack api**
 
 ## Deployment
 
