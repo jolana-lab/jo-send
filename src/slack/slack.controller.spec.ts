@@ -3,6 +3,7 @@ import { SlackCommandDto } from './dto/slack-command';
 import { ErrorResponseContent } from './response-contents/error-response-content';
 import { OkResponseContent } from './response-contents/ok-response-content';
 import { SlackController } from './slack.controller';
+import { Queue } from 'bull';
 
 describe('SlackController', () => {
   let controller: SlackController;
@@ -10,8 +11,13 @@ describe('SlackController', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [SlackController],
-      providers: [],
-    }).compile();
+    })
+      .useMocker((token) => {
+        if (token == 'BullQueue_slack') {
+          return { add: jest.fn() };
+        }
+      })
+      .compile();
 
     controller = module.get<SlackController>(SlackController);
   });
@@ -58,11 +64,16 @@ describe('SlackController', () => {
     });
 
     it('success', async () => {
+      const fromUsername = 'fromUsername';
+      const toUsername = 'toUsername';
+      const sol = 1;
       const payload: SlackCommandDto = {
-        user_name: 'username',
-        text: '@username 1',
+        user_name: `${fromUsername}`,
+        text: `@${toUsername} ${sol}`,
       };
-      const expectedResult = new OkResponseContent('OK');
+      const expectedResult = new OkResponseContent(
+        `${fromUsername} sent ${sol} SOL to ${toUsername}`,
+      );
 
       const result = await controller.sendSol(payload);
       expect(result).toEqual(expectedResult);
@@ -98,11 +109,15 @@ describe('SlackController', () => {
     });
 
     it('success', async () => {
+      const username = 'test';
+      const sol = 1;
       const payload: SlackCommandDto = {
-        user_name: 'username',
-        text: '1',
+        user_name: username,
+        text: `${sol}`,
       };
-      const expectedResult = new OkResponseContent('OK');
+      const expectedResult = new OkResponseContent(
+        `${username} airdropped ${sol} SOL to the wallet.`,
+      );
 
       const result = await controller.airdropSol(payload);
       expect(result).toEqual(expectedResult);
