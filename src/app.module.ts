@@ -14,7 +14,7 @@ import { BullModule } from '@nestjs/bull';
     MongooseModule.forRoot(process.env.MONGODB_PATH),
     BullModule.forRoot({
       redis: {
-        host: 'localhost',
+        host: process.env.REDIS_PATH,
         port: 6379,
       },
     }),
