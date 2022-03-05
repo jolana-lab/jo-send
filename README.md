@@ -1,8 +1,12 @@
 # Jo Send
 
-It's an Application that allows users **send cryto coins/token to friends on chat applications**.
+It's an application that allows users **send cryto coins/tokens to friends on chat applications**.
 
-## Supported cryto coins/token
+## Supported blockchains
+
+- [x] Solana (devnet ONLY)
+
+## Supported cryto coins/tokens
 
 - [x] SOL
 
@@ -11,7 +15,19 @@ It's an Application that allows users **send cryto coins/token to friends on cha
 - [x] Slack
 - [ ] Discord
 
-## Documentation
+## Supported functionalities
+
+- Create a wallet for the user automatically.
+
+  When JoSend detects that the user doen't have a wallet in the system, it will create one for him/her.
+
+- Check user's wallet balance
+
+- Airdrop some SOLs to user's wallet
+
+- Send some SOLs between users.
+
+## Documents
 
 - [Developer README](./docs/developer.md)
 - [Change log](./CHANGELOG.md)
