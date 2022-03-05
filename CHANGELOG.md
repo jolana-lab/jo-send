@@ -1,3 +1,13 @@
+#### 0.0.7 (2022-03-05)
+
+##### New Features
+
+*  inject solana and solana transaction into blockchain model (c4263c06)
+
+##### Tests
+
+*  complete the unit tests of solana service (3f57ef0c)
+
 #### 0.0.6 (2022-03-05)
 
 ##### New Features
