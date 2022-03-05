@@ -15,7 +15,7 @@ It's an application that allows users **send cryto coins/tokens to friends on ch
 - [x] Slack
 - [ ] Discord
 
-## Supported functionalities
+## Functionalities
 
 - Create a wallet for the user automatically.
 
