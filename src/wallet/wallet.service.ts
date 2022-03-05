@@ -41,4 +41,11 @@ export class WalletService {
       return await this.create(username);
     }
   }
+
+  async getBalance(
+    username: string,
+  ): Promise<{ publicKey: string; balance: string }> {
+    const wallet = await this.get(username);
+    return this.solanaService.getBalance(wallet);
+  }
 }

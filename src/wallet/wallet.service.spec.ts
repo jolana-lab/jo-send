@@ -81,4 +81,19 @@ describe('WalletService', () => {
       expect(walletService.create).toHaveBeenCalledTimes(1);
     });
   });
+
+  it('should get balance', async () => {
+    const expectedWallet = new Wallet();
+    const balance: { publicKey: string; balance: string } = {
+      balance: '1',
+      publicKey: 'test',
+    };
+    jest
+      .spyOn(walletService, 'get')
+      .mockReturnValue(Promise.resolve(expectedWallet));
+    jest.spyOn(solanaService, 'getBalance').mockResolvedValue(balance);
+
+    const result = await walletService.getBalance(expectedWallet.username);
+    expect(result).toEqual(balance);
+  });
 });
