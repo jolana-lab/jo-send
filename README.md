@@ -14,3 +14,4 @@ It's an Application that allows users **send cryto coins/token to friends on cha
 ## Documentation
 
 - [Developer README](./docs/developer.md)
+- [Change log](./CHANGELOG.md)
