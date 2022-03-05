@@ -1,3 +1,10 @@
+#### 0.0.6 (2022-03-05)
+
+##### New Features
+
+*  implement get balance in wallet service (ee6a8fb4)
+*  implement check balance endpoint in slack controller (ffea2f36)
+
 #### 0.0.5 (2022-03-05)
 
 ##### Chores
