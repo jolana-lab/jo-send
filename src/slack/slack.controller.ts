@@ -92,7 +92,7 @@ export class SlackController {
     }
     try {
       const balance = await this.walletService.getBalance(username);
-      return new OkResponseContent(`${username} has ${balance.balance} SOL`);
+      return new OkResponseContent(`${username} has ${balance.balance}.`);
     } catch (e) {
       return new ErrorResponseContent(
         `${username} doesn't have a wallet.
