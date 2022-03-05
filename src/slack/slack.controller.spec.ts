@@ -140,7 +140,7 @@ describe('SlackController', () => {
         publicKey: 'test',
       };
       const expectedResult = new OkResponseContent(
-        `${username} has ${balance.balance} SOL`,
+        `${username} has ${balance.balance}.`,
       );
       jest.spyOn(walletService, 'getBalance').mockResolvedValue(balance);
 
