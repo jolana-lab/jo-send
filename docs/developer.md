@@ -67,7 +67,11 @@ Besides, the developers need to write **unit tests** themselves.
 
     update the `Request URL` in the **slack api**
 
-## Deployment
+## Environment variables
+
+Create `.local.env` under the root (the same level of `.env`), and override the variables in the `.env`.
+
+## Deployment (Admin ONLY)
 
 1. Update the App version
 
