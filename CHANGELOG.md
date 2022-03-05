@@ -1,3 +1,41 @@
+#### 0.0.5 (2022-03-05)
+
+##### Chores
+
+*  install throttler (9a9945c9)
+*  install csurf (e7820ab4)
+*  install helmet (a6ff30a4)
+*  install bull (171cd87f)
+
+##### Documentation Changes
+
+*  create developer readme (5710c250)
+*  add redis (0860d331)
+
+##### New Features
+
+*  set rate limit (a9a04259)
+*  enable csrf protection (522b986d)
+*  enable cors protection (1e4514a6)
+*  use helmet (60d675d3)
+*  remove slack service (d400bf89)
+*  remove wallet controller (ca99ccfe)
+*  put the functionality of slack service into queue (bc40ca32)
+*  add redis path to env variables (ea166aa3)
+*  inject BullModule (f136b83f)
+
+##### Bug Fixes
+
+*  provide slack processor in slack module (3178d49a)
+
+##### Refactors
+
+*  database to mongodb (25166aca)
+
+##### Tests
+
+*  mock slack queue (ee97ba7f)
+
 #### 0.0.4 (2022-03-03)
 
 ##### Documentation Changes
