@@ -1,20 +1,53 @@
 # Developer
 
-This doc is for the developers.
+This document is for the developers.
 
 ## Development
+
+### Installation
+
+```command
+git clone https://github.com/jolana-lab/jo-send.git
+cd jo-send
+npm ci
+```
+
+### Setup
+
+We provide two development setups:
+
+- [local](###Local)
+- docker
+
+Besides, the developers need to write **unit tests** themselves.
+
+- During coding:
+
+  Watching if the implemented codes pass the tests, and writing new tests.
+
+  ```command
+  npm run test:watch
+  ```
+
+- After coding:
+
+  Checking the test coverage (Only the tests of **controllers and services** are collected).
+
+  ```command
+  npm run test:cov
+  ```
 
 ### Local
 
 1.  start the local databases
 
-    - mongodb
+    - **mongodb**
 
       ```command
       brew services start mongodb-community@5.0
       ```
 
-    - redis
+    - **redis**
 
       ```command
       redis-server
