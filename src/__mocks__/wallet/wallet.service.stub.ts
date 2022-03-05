@@ -10,4 +10,8 @@ export class WalletServiceStub {
   async get(): Promise<void> {
     return Promise.resolve();
   }
+
+  async getBalance(): Promise<void> {
+    return Promise.resolve();
+  }
 }

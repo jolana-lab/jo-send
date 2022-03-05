@@ -1,6 +1,7 @@
 import { InjectQueue } from '@nestjs/bull';
 import { Body, Controller, Post } from '@nestjs/common';
 import { Queue } from 'bull';
+import { WalletService } from '../wallet/wallet.service';
 import { SlackCommandDto } from './dto/slack-command';
 import { ErrorResponseContent } from './response-contents/error-response-content';
 import { OkResponseContent } from './response-contents/ok-response-content';
@@ -8,7 +9,10 @@ import { ResponseContent } from './response-contents/response-content';
 
 @Controller('slack')
 export class SlackController {
-  constructor(@InjectQueue('slack') private readonly slackQueue: Queue) {}
+  constructor(
+    @InjectQueue('slack') private readonly slackQueue: Queue,
+    private readonly walletService: WalletService,
+  ) {}
 
   @Post('send-sol')
   async sendSol(@Body() body: SlackCommandDto): Promise<ResponseContent> {
@@ -78,5 +82,23 @@ export class SlackController {
     return new OkResponseContent(
       `${username} airdropped ${sol} SOL to the wallet.`,
     );
+  }
+
+  @Post('check-balance')
+  async checkBalance(@Body() body: SlackCommandDto): Promise<ResponseContent> {
+    const username = body.user_name;
+    if (!username) {
+      return new ErrorResponseContent('Username is required.');
+    }
+    try {
+      const balance = await this.walletService.getBalance(username);
+      return new OkResponseContent(`${username} has ${balance.balance} SOL`);
+    } catch (e) {
+      return new ErrorResponseContent(
+        `${username} doesn't have a wallet.
+        Please airdrop SOL or ask your friends to send you SOL.
+        Your wallet is automatically created once you receive SOL.`,
+      );
+    }
   }
 }

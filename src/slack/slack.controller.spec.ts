@@ -1,16 +1,19 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { WalletService } from '../wallet/wallet.service';
+import { WalletServiceStub } from '../__mocks__/wallet/wallet.service.stub';
 import { SlackCommandDto } from './dto/slack-command';
 import { ErrorResponseContent } from './response-contents/error-response-content';
 import { OkResponseContent } from './response-contents/ok-response-content';
 import { SlackController } from './slack.controller';
-import { Queue } from 'bull';
 
 describe('SlackController', () => {
   let controller: SlackController;
+  let walletService: WalletService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [SlackController],
+      providers: [{ provide: WalletService, useClass: WalletServiceStub }],
     })
       .useMocker((token) => {
         if (token == 'BullQueue_slack') {
@@ -20,6 +23,7 @@ describe('SlackController', () => {
       .compile();
 
     controller = module.get<SlackController>(SlackController);
+    walletService = module.get<WalletService>(WalletService);
   });
 
   it('should be defined', () => {
@@ -121,6 +125,50 @@ describe('SlackController', () => {
 
       const result = await controller.airdropSol(payload);
       expect(result).toEqual(expectedResult);
+    });
+  });
+
+  describe('should check balance', () => {
+    it('success', async () => {
+      const username = 'test';
+      const payload: SlackCommandDto = {
+        user_name: username,
+        text: '',
+      };
+      const balance: { publicKey: string; balance: string } = {
+        balance: '1',
+        publicKey: 'test',
+      };
+      const expectedResult = new OkResponseContent(
+        `${username} has ${balance.balance} SOL`,
+      );
+      jest.spyOn(walletService, 'getBalance').mockResolvedValue(balance);
+
+      const result = await controller.checkBalance(payload);
+      expect(result).toEqual(expectedResult);
+    });
+
+    it('should validate the sender', async () => {
+      const payload: SlackCommandDto = {
+        user_name: '',
+        text: '',
+      };
+      const result = await controller.checkBalance(payload);
+      expect(result).toBeInstanceOf(ErrorResponseContent);
+    });
+
+    it('should hanlder wallet not found', async () => {
+      const username = 'test';
+      const payload: SlackCommandDto = {
+        user_name: username,
+        text: '',
+      };
+      jest
+        .spyOn(walletService, 'getBalance')
+        .mockRejectedValue(new Error('not found'));
+
+      const result = await controller.checkBalance(payload);
+      expect(result).toBeInstanceOf(ErrorResponseContent);
     });
   });
 });
