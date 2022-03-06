@@ -116,8 +116,6 @@ export class SolanaService {
   }
 
   private getConnection(): any {
-    return new this.solana.Connection(
-      this.solana.clusterApiUrl(process.env.SOLANA_NETWORK),
-    );
+    return new this.solana.Connection(process.env.SOLANA_NETWORK);
   }
 }
