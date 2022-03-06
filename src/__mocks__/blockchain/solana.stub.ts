@@ -9,7 +9,6 @@ export const solanaStub = {
   },
   sendAndConfirmTransaction: jest.fn(),
   Connection: jest.fn(),
-  clusterApiUrl: jest.fn(),
 };
 
 export const solanaTransationStub = {

@@ -40,3 +40,4 @@ lerna-debug.log*
 
 # dumps
 dump.rdb
+test-ledger/

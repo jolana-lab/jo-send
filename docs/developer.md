@@ -16,8 +16,8 @@ npm ci
 
 We provide two development setups:
 
-- [local](###Local)
-- docker
+- [Local (macos)](###Local)
+- Docker
 
 Besides, the developers need to write **unit tests** themselves.
 
@@ -37,9 +37,21 @@ Besides, the developers need to write **unit tests** themselves.
   npm run test:cov
   ```
 
-### Local
+### Local (macos)
 
-1.  start the local databases
+This setup requires the developers to install the infrastructures on their machine, and start a **local solana blockchain**.
+
+First, install the infrastructures:
+
+- [MongoDB Community Edition on macOS](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-os-x/#install-mongodb-community-edition-on-macos)
+
+- [Redis](https://redis.io/topics/quickstart)
+
+- [Solana CLI](https://docs.solana.com/cli/install-solana-cli-tools#macos--linux)
+
+Then, follow the steps:
+
+1.  start the infrastructures
 
     - **mongodb**
 
@@ -51,6 +63,12 @@ Besides, the developers need to write **unit tests** themselves.
 
       ```command
       redis-server
+      ```
+
+    - **solana localhost**
+
+      ```command
+      solana-test-validator
       ```
 
 2.  run nest dev server
@@ -65,7 +83,7 @@ Besides, the developers need to write **unit tests** themselves.
     ngrok http 3030
     ```
 
-    update the `Request URL` in the **slack api**
+    - update the `Request URL` in the **slack api**
 
 ## Environment variables
 
