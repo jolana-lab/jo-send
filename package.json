@@ -2,9 +2,9 @@
   "name": "jo-send",
   "version": "0.0.7",
   "description": "",
-  "author": "",
+  "author": "Jijie LIU",
   "private": true,
-  "license": "UNLICENSED",
+  "license": "MIT",
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",
