@@ -1,12 +1,12 @@
 # Jo Send
 
-It's an application that allows users **send cryto coins/tokens to friends on chat applications**.
+It's an application that allows users **send crypto coins/tokens to friends on chat applications**.
 
 ## Supported blockchains
 
 - [x] Solana (devnet ONLY)
 
-## Supported cryto coins/tokens
+## Supported crypto coins/tokens
 
 - [x] SOL
 

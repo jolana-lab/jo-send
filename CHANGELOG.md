@@ -1,3 +1,14 @@
+#### 0.0.8 (2022-03-06)
+
+##### New Features
+
+*  save the solana RPC URL in env variables (a8e8b1c9)
+*  use solana localhost for local dev (c4f50085)
+
+##### Bug Fixes
+
+*  inject solana transaction instance (1143b03f)
+
 #### 0.0.7 (2022-03-05)
 
 ##### New Features
