@@ -1,3 +1,10 @@
+#### 0.0.9 (2022-03-06)
+
+##### New Features
+
+*  create env variables for docker compose setup (730233b7)
+*  create docker compose setup (504c8618)
+
 #### 0.0.8 (2022-03-06)
 
 ##### New Features
