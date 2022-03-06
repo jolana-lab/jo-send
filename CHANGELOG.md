@@ -1,3 +1,14 @@
+#### 0.0.10 (2022-03-06)
+
+##### Continuous Integration
+
+*  remove lint (4d1e7bff)
+
+##### Documentation Changes
+
+*  update developer documentation (61d5f87a)
+*  add pr rules (7a2b4b67)
+
 #### 0.0.9 (2022-03-06)
 
 ##### New Features
