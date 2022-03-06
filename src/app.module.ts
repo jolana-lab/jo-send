@@ -11,7 +11,7 @@ import { APP_GUARD } from '@nestjs/core';
 @Module({
   imports: [
     ConfigModule.forRoot({
-      envFilePath: ['.local.env', '.production.env', '.env'],
+      envFilePath: ['.local.env', '.production.env', '.docker.env', '.env'],
     }),
     MongooseModule.forRoot(process.env.MONGODB_PATH),
     BullModule.forRoot({

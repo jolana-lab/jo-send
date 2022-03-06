@@ -29,5 +29,8 @@ It's an application that allows users **send crypto coins/tokens to friends on c
 
 ## Documents
 
+- [Contributing](./CONTRIBUTING.md)
+
 - [Developer README](./docs/developer.md)
+
 - [Change log](./CHANGELOG.md)

@@ -16,30 +16,26 @@ npm ci
 
 We provide two development setups:
 
-- [Local (macos)](###Local)
-- Docker
+- **Default**: [Docker compose](###docker-compose)
+- **Recommended**: [Local macos](###local-macos)
 
-Besides, the developers need to write **unit tests** themselves.
+#### Docker compose
 
-- During coding:
+Docker compose is the easiest way to setup.
 
-  Watching if the implemented codes pass the tests, and writing new tests.
+However, it takes a little more time to lanuch the project, and it costs more time to recompile during coding.
 
-  ```command
-  npm run test:watch
-  ```
+```command
+docker compose up
+```
 
-- After coding:
+That's all. :)
 
-  Checking the test coverage (Only the tests of **controllers and services** are collected).
+#### Local macos
 
-  ```command
-  npm run test:cov
-  ```
+This setup is more complicated than the previous one. But it's faster to lanuch and recompile. I personnally prefer this way.
 
-### Local (macos)
-
-This setup requires the developers to install the infrastructures on their machine, and start a **local solana blockchain**.
+This setup requires the developers to install the infrastructures on their machine.
 
 First, install the infrastructures:
 
@@ -77,17 +73,39 @@ Then, follow the steps:
     npm run start:dev
     ```
 
-3.  open development proxy (Optional)
+### Development proxy (Optional)
 
-    ```command
-    ngrok http 3030
-    ```
+```command
+ngrok http 3030
+```
 
-    - update the `Request URL` in the **slack api**
+- update the `Request URL` in the **slack api**
+
+### Unit tests
+
+Developers need to write **unit tests** themselves.
+
+- During coding:
+
+  Watching if the implemented codes pass the tests, and writing new tests.
+
+  ```command
+  npm run test:watch
+  ```
+
+- After coding:
+
+  Checking the test coverage (Only the tests of **controllers and services** are collected).
+
+  ```command
+  npm run test:cov
+  ```
 
 ## Environment variables
 
 Create `.local.env` under the root (the same level of `.env`), and override the variables in the `.env`.
+
+> Tip: If you want to use [Local macos](###local-macos) setup, you can copy all the variables in the `.env`, and paste them in `.local.env`.
 
 ## Deployment (Admin ONLY)
 
