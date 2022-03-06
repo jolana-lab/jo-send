@@ -10,7 +10,7 @@ import * as solana from '@solana/web3.js';
     },
     {
       provide: 'SOLANA_TRANSACTION',
-      useValue: solana.Transaction,
+      useValue: new solana.Transaction(),
     },
     SolanaService,
   ],
