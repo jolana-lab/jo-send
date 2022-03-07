@@ -11,12 +11,13 @@ It's an application that allows users **send crypto coins/tokens to friends on c
 ## Supported crypto coins/tokens
 
 - [x] SOL
+- [ ] Solana personal token
 - [ ] ETH
 - [ ] BNB
 
 ## Supported chat applications
 
-- [x] Slack
+- [x] [Slack](./docs/tech-support/slack.md)
 - [ ] Discord
 
 ## Functionalities
