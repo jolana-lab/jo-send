@@ -4,11 +4,15 @@ It's an application that allows users **send crypto coins/tokens to friends on c
 
 ## Supported blockchains
 
-- [x] Solana (devnet ONLY)
+- [x] Solana
+- [ ] Ethereum
+- [ ] Binance smart chain
 
 ## Supported crypto coins/tokens
 
 - [x] SOL
+- [ ] ETH
+- [ ] BNB
 
 ## Supported chat applications
 
@@ -17,15 +21,15 @@ It's an application that allows users **send crypto coins/tokens to friends on c
 
 ## Functionalities
 
-- Create a wallet for the user automatically.
+- **Create a wallet for the user automatically**
 
   When JoSend detects that the user doen't have a wallet in the system, it will create one for him/her.
 
-- Check user's wallet balance
+- **Check user's wallet balance**
 
-- Airdrop some SOLs to user's wallet
+- **Send some SOLs between users**
 
-- Send some SOLs between users.
+- Airdrop some SOLs to user's wallet (devnet or localhost)
 
 ## Documents
 
