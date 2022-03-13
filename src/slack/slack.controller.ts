@@ -61,33 +61,18 @@ export class SlackController {
   })
   @Post('airdrop-sol')
   async airdropSol(@Body() body: SlackCommandDto): Promise<ResponseContent> {
-    const username = body.user_name;
-    if (!username) {
-      return new ErrorResponseContent('SOL sender is required.');
-    }
-
-    const contents = body.text.trim().split(' ');
-    if (contents.length !== 1) {
-      return new ErrorResponseContent(
-        'Invalid format. Please use `<sol-amount>`',
+    try {
+      const { username, sol } = this.slackService.airdropSol(body);
+      await this.slackQueue.add('airdrop-sol', {
+        username,
+        sol,
+      });
+      return new OkResponseContent(
+        `${username} airdropped ${sol} SOL to the wallet.`,
       );
+    } catch (e) {
+      return new ErrorResponseContent(e.message);
     }
-
-    const [sol] = contents;
-    const solNumber = Number(sol);
-    if (isNaN(solNumber)) {
-      return new ErrorResponseContent(
-        'Invalid SOL amount. It should be a number.',
-      );
-    }
-
-    await this.slackQueue.add('airdrop-sol', {
-      username,
-      sol: solNumber,
-    });
-    return new OkResponseContent(
-      `${username} airdropped ${sol} SOL to the wallet.`,
-    );
   }
 
   @ApiBody({

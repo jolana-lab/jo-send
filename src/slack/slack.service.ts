@@ -37,4 +37,30 @@ export class SlackService {
       sol: solNumber,
     };
   }
+
+  airdropSol(body: SlackCommandDto): {
+    username: string;
+    sol: number;
+  } {
+    const username = body.user_name;
+    if (!username) {
+      throw new Error('SOL sender is required.');
+    }
+
+    const contents = body.text.trim().split(' ');
+    if (contents.length !== 1) {
+      throw new Error('Invalid format. Please use `<sol-amount>`');
+    }
+
+    const [sol] = contents;
+    const solNumber = Number(sol);
+    if (isNaN(solNumber)) {
+      throw new Error('Invalid SOL amount. It should be a number.');
+    }
+
+    return {
+      username,
+      sol: solNumber,
+    };
+  }
 }

@@ -87,4 +87,57 @@ describe('SlackService', () => {
       expect(result).toEqual(expectedResult);
     });
   });
+
+  describe('should airdrop sol', () => {
+    it('should validate the sender', () => {
+      const payload: SlackCommandDto = {
+        user_name: '',
+        text: '1',
+      };
+      try {
+        service.airdropSol(payload);
+      } catch (e) {
+        expect(e.message).toEqual('SOL sender is required.');
+      }
+    });
+
+    it('should validate the payload text', () => {
+      const payload: SlackCommandDto = {
+        user_name: 'username',
+        text: '1 extra stuff',
+      };
+      try {
+        service.airdropSol(payload);
+      } catch (e) {
+        expect(e.message).toEqual('Invalid format. Please use `<sol-amount>`');
+      }
+    });
+
+    it('should validate the sol amount', async () => {
+      const payload: SlackCommandDto = {
+        user_name: 'username',
+        text: 'rich',
+      };
+      try {
+        service.airdropSol(payload);
+      } catch (e) {
+        expect(e.message).toEqual('Invalid SOL amount. It should be a number.');
+      }
+    });
+
+    it('success', () => {
+      const username = 'username';
+      const sol = 1;
+      const payload: SlackCommandDto = {
+        user_name: `${username}`,
+        text: `${sol}`,
+      };
+      const expectedResult = {
+        username,
+        sol,
+      };
+      const result = service.airdropSol(payload);
+      expect(result).toEqual(expectedResult);
+    });
+  });
 });
