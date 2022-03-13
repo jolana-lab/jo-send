@@ -1,4 +1,4 @@
-# Jo Send
+# JoSend
 
 It's an application that allows users **send crypto coins/tokens to friends on chat applications**.
 
