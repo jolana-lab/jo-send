@@ -11,7 +11,7 @@ async function bootstrap() {
   const config = new DocumentBuilder()
     .setTitle('JoSend')
     .setDescription('Send crypto coins/tokens to friends on chat applications.')
-    .setVersion('1.0')
+    .setVersion('0.1.0')
     .addTag('slack')
     .build();
   const document = SwaggerModule.createDocument(app, config);
