@@ -1,5 +1,6 @@
 import { InjectQueue } from '@nestjs/bull';
 import { Body, Controller, Post } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { Queue } from 'bull';
 import { WalletService } from '../wallet/wallet.service';
 import { SlackCommandDto } from './dto/slack-command';
@@ -7,6 +8,7 @@ import { ErrorResponseContent } from './response-contents/error-response-content
 import { OkResponseContent } from './response-contents/ok-response-content';
 import { ResponseContent } from './response-contents/response-content';
 
+@ApiTags('slack')
 @Controller('slack')
 export class SlackController {
   constructor(
