@@ -1,19 +1,25 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { WalletService } from '../wallet/wallet.service';
+import { SlackServiceStub } from '../__mocks__/slack/slack.service.stub';
 import { WalletServiceStub } from '../__mocks__/wallet/wallet.service.stub';
-import { SlackCommandDto } from './dto/slack-command';
+import { SlackCommandDto } from './dto/slack-command.dto';
 import { ErrorResponseContent } from './response-contents/error-response-content';
 import { OkResponseContent } from './response-contents/ok-response-content';
 import { SlackController } from './slack.controller';
+import { SlackService } from './slack.service';
 
 describe('SlackController', () => {
   let controller: SlackController;
   let walletService: WalletService;
+  let slackService: SlackService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [SlackController],
-      providers: [{ provide: WalletService, useClass: WalletServiceStub }],
+      providers: [
+        { provide: WalletService, useClass: WalletServiceStub },
+        { provide: SlackService, useClass: SlackServiceStub },
+      ],
     })
       .useMocker((token) => {
         if (token == 'BullQueue_slack') {
@@ -24,6 +30,7 @@ describe('SlackController', () => {
 
     controller = module.get<SlackController>(SlackController);
     walletService = module.get<WalletService>(WalletService);
+    slackService = module.get<SlackService>(SlackService);
   });
 
   it('should be defined', () => {
@@ -31,50 +38,20 @@ describe('SlackController', () => {
   });
 
   describe('should send sol', () => {
-    it('should validate the sender', async () => {
-      const payload: SlackCommandDto = {
-        user_name: '',
-        text: '@username 1',
-      };
-      const result = await controller.sendSol(payload);
-      expect(result).toBeInstanceOf(ErrorResponseContent);
-    });
-
-    it('should validate the payload text', async () => {
-      const payload: SlackCommandDto = {
-        user_name: 'username',
-        text: '@username 1 extra stuff',
-      };
-      const result = await controller.sendSol(payload);
-      expect(result).toBeInstanceOf(ErrorResponseContent);
-    });
-
-    it('should validate the receiver format', async () => {
-      const payload: SlackCommandDto = {
-        user_name: 'username',
-        text: 'username 1',
-      };
-      const result = await controller.sendSol(payload);
-      expect(result).toBeInstanceOf(ErrorResponseContent);
-    });
-
-    it('should validate the sol amount', async () => {
-      const payload: SlackCommandDto = {
-        user_name: 'username',
-        text: '@username rich',
-      };
-      const result = await controller.sendSol(payload);
-      expect(result).toBeInstanceOf(ErrorResponseContent);
-    });
+    const fromUsername = 'fromUsername';
+    const toUsername = 'toUsername';
+    const sol = 1;
+    const payload: SlackCommandDto = {
+      user_name: `${fromUsername}`,
+      text: `@${toUsername} ${sol}`,
+    };
 
     it('success', async () => {
-      const fromUsername = 'fromUsername';
-      const toUsername = 'toUsername';
-      const sol = 1;
-      const payload: SlackCommandDto = {
-        user_name: `${fromUsername}`,
-        text: `@${toUsername} ${sol}`,
-      };
+      jest.spyOn(slackService, 'parseSendSol').mockReturnValue({
+        fromUsername,
+        toUsername,
+        sol,
+      });
       const expectedResult = new OkResponseContent(
         `${fromUsername} sent ${sol} SOL to ${toUsername}`,
       );
@@ -82,46 +59,42 @@ describe('SlackController', () => {
       const result = await controller.sendSol(payload);
       expect(result).toEqual(expectedResult);
     });
+    it('send error message', async () => {
+      jest.spyOn(slackService, 'parseSendSol').mockImplementation(() => {
+        throw new Error('error');
+      });
+      const expectedResult = new ErrorResponseContent('error');
+
+      const result = await controller.sendSol(payload);
+      expect(result).toEqual(expectedResult);
+    });
   });
 
   describe('should airdrop sol', () => {
-    it('should validate the sender', async () => {
-      const payload: SlackCommandDto = {
-        user_name: '',
-        text: '1',
-      };
-      const result = await controller.airdropSol(payload);
-      expect(result).toBeInstanceOf(ErrorResponseContent);
-    });
-
-    it('should validate the payload text', async () => {
-      const payload: SlackCommandDto = {
-        user_name: 'username',
-        text: '1 extra stuff',
-      };
-      const result = await controller.airdropSol(payload);
-      expect(result).toBeInstanceOf(ErrorResponseContent);
-    });
-
-    it('should validate the sol amount', async () => {
-      const payload: SlackCommandDto = {
-        user_name: 'username',
-        text: 'rich',
-      };
-      const result = await controller.airdropSol(payload);
-      expect(result).toBeInstanceOf(ErrorResponseContent);
-    });
+    const username = 'test';
+    const sol = 1;
+    const payload: SlackCommandDto = {
+      user_name: username,
+      text: `${sol}`,
+    };
+    const expectedResult = new OkResponseContent(
+      `${username} airdropped ${sol} SOL to the wallet.`,
+    );
 
     it('success', async () => {
-      const username = 'test';
-      const sol = 1;
-      const payload: SlackCommandDto = {
-        user_name: username,
-        text: `${sol}`,
-      };
-      const expectedResult = new OkResponseContent(
-        `${username} airdropped ${sol} SOL to the wallet.`,
-      );
+      jest.spyOn(slackService, 'parseAirdropSol').mockReturnValue({
+        username,
+        sol,
+      });
+      const result = await controller.airdropSol(payload);
+      expect(result).toEqual(expectedResult);
+    });
+
+    it('send error message', async () => {
+      jest.spyOn(slackService, 'parseAirdropSol').mockImplementation(() => {
+        throw new Error('error');
+      });
+      const expectedResult = new ErrorResponseContent('error');
 
       const result = await controller.airdropSol(payload);
       expect(result).toEqual(expectedResult);

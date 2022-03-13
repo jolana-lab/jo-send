@@ -137,7 +137,11 @@ The following example shows how to create a **patch** version.
 
     Then, commit the change.
 
-2.  update `version` in `package`
+2.  update Swagger version (Optional)
+
+    In `main.ts`, update `setVersion` to match the lastest version `CHANGELOG.md`. then, commit the change.
+
+3.  update `version` in `package`
 
     ```command
     npm version <patch|minor|major>

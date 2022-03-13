@@ -1,4 +1,4 @@
-# Jo Send
+# JoSend
 
 It's an application that allows users **send crypto coins/tokens to friends on chat applications**.
 
@@ -31,6 +31,8 @@ It's an application that allows users **send crypto coins/tokens to friends on c
 - **Send some SOLs between users**
 
 - Airdrop some SOLs to user's wallet (devnet or localhost)
+
+The full endpoints are shown in [http://localhost:3030/api/](http://localhost:3030/api/).
 
 ## Documents
 

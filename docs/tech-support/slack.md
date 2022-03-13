@@ -36,6 +36,8 @@ https://665a-176-158-55-131.ngrok.io/slack/send-sol
 
 ![slack-send-sol-command](../img/slack-send-sol-command.png)
 
+The full endpoints are shown in [http://localhost:3030/api/#/slack](http://localhost:3030/api/#/slack).
+
 ## References
 
 - [Slack: Building an app with Bolt for JavaScript](https://api.slack.com/start/building/bolt-js)
