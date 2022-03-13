@@ -7,6 +7,7 @@ import { SlackCommandDto } from './dto/slack-command.dto';
 import { ErrorResponseContent } from './response-contents/error-response-content';
 import { OkResponseContent } from './response-contents/ok-response-content';
 import { ResponseContent } from './response-contents/response-content';
+import { SlackService } from './slack.service';
 
 @ApiTags('slack')
 @Controller('slack')
@@ -14,6 +15,7 @@ export class SlackController {
   constructor(
     @InjectQueue('slack') private readonly slackQueue: Queue,
     private readonly walletService: WalletService,
+    private readonly slackService: SlackService,
   ) {}
 
   @ApiBody({
@@ -30,41 +32,19 @@ export class SlackController {
   })
   @Post('send-sol')
   async sendSol(@Body() body: SlackCommandDto): Promise<ResponseContent> {
-    const fromUsername = body.user_name;
-    if (!fromUsername) {
-      return new ErrorResponseContent('SOL sender is required.');
-    }
-
-    const contents = body.text.trim().split(' ');
-    if (contents.length !== 2) {
-      return new ErrorResponseContent(
-        'Invalid format. Please use `@user <sol-amount>`',
+    try {
+      const { fromUsername, toUsername, sol } = this.slackService.sendSol(body);
+      await this.slackQueue.add('send-sol', {
+        fromUsername,
+        toUsername,
+        sol,
+      });
+      return new OkResponseContent(
+        `${fromUsername} sent ${sol} SOL to ${toUsername}`,
       );
+    } catch (e) {
+      return new ErrorResponseContent(e.message);
     }
-
-    const [user, sol] = contents;
-    if (user.charAt(0) !== '@') {
-      return new ErrorResponseContent(
-        'Invalid receiver format. Please make sure `@` in front of the username.',
-      );
-    }
-    const toUsername = user.substring(1);
-
-    const solNumber = Number(sol);
-    if (isNaN(solNumber)) {
-      return new ErrorResponseContent(
-        'Invalid SOL amount. It should be a number.',
-      );
-    }
-
-    await this.slackQueue.add('send-sol', {
-      fromUsername,
-      toUsername,
-      sol: solNumber,
-    });
-    return new OkResponseContent(
-      `${fromUsername} sent ${sol} SOL to ${toUsername}`,
-    );
   }
 
   @ApiBody({

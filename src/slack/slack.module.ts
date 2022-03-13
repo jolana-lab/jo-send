@@ -4,6 +4,7 @@ import { BlockchainModule } from '../blockchain/blockchain.module';
 import { WalletModule } from '../wallet/wallet.module';
 import { SlackController } from './slack.controller';
 import { SlackProcessor } from './slack.processor';
+import { SlackService } from './slack.service';
 
 @Module({
   imports: [
@@ -14,6 +15,6 @@ import { SlackProcessor } from './slack.processor';
     BlockchainModule,
   ],
   controllers: [SlackController],
-  providers: [SlackProcessor],
+  providers: [SlackProcessor, SlackService],
 })
 export class SlackModule {}
