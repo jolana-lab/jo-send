@@ -1,6 +1,6 @@
 import { InjectQueue } from '@nestjs/bull';
 import { Body, Controller, Post } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBody, ApiTags } from '@nestjs/swagger';
 import { Queue } from 'bull';
 import { WalletService } from '../wallet/wallet.service';
 import { SlackCommandDto } from './dto/slack-command.dto';
@@ -16,6 +16,18 @@ export class SlackController {
     private readonly walletService: WalletService,
   ) {}
 
+  @ApiBody({
+    type: SlackCommandDto,
+    examples: {
+      sendSol: {
+        summary: 'Send 0.1 SOL from @jo-send-local to @jo-receive-local',
+        value: {
+          user_name: 'jo-send-local',
+          text: '@jo-receive-local 0.1',
+        },
+      },
+    },
+  })
   @Post('send-sol')
   async sendSol(@Body() body: SlackCommandDto): Promise<ResponseContent> {
     const fromUsername = body.user_name;
@@ -55,6 +67,18 @@ export class SlackController {
     );
   }
 
+  @ApiBody({
+    type: SlackCommandDto,
+    examples: {
+      airdropSol: {
+        summary: 'airdrop 1 SOL to @jo-send-local',
+        value: {
+          user_name: 'jo-send-local',
+          text: '1',
+        },
+      },
+    },
+  })
   @Post('airdrop-sol')
   async airdropSol(@Body() body: SlackCommandDto): Promise<ResponseContent> {
     const username = body.user_name;
@@ -86,6 +110,17 @@ export class SlackController {
     );
   }
 
+  @ApiBody({
+    type: SlackCommandDto,
+    examples: {
+      checkBalance: {
+        summary: 'check the balance of @jo-send-local',
+        value: {
+          user_name: 'jo-send-local',
+        },
+      },
+    },
+  })
   @Post('check-balance')
   async checkBalance(@Body() body: SlackCommandDto): Promise<ResponseContent> {
     const username = body.user_name;
