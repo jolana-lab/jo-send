@@ -1,19 +1,24 @@
-# JoSend
+![josend](./docs/img/josend.png)
 
-It's an application that allows users **send crypto coins/tokens to friends on chat applications**.
+## Demo
+
+Sending crypto as easy as sending messages
+
+![josend-demo](./docs/img/josend-demo.png)
+
+## System design
+
+![josend-system-design](./docs/img/josend-design.png)
 
 ## Supported blockchains
 
 - [x] Solana
-- [ ] Ethereum
-- [ ] Binance smart chain
+- [ ] Terra
 
 ## Supported crypto coins/tokens
 
 - [x] SOL
-- [ ] Solana personal token
-- [ ] ETH
-- [ ] BNB
+- [ ] UST
 
 ## Supported chat applications
 
