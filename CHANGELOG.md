@@ -1,3 +1,25 @@
+### 0.1.0 (2022-03-13)
+
+##### Chores
+
+*  install swagger (5f2ec6e7)
+
+##### Documentation Changes
+
+*  josend slack app (94d815ac)
+
+##### New Features
+
+*  add examples for slack endpoints (f216dda9)
+*  create swagger for slack enpoints (78c26cd9)
+
+##### Refactors
+
+*  add parse in the front of the functions (15941480)
+*  move parse airdropSol body to slack service (45549b89)
+*  move sendSol parse body to slack service (85108175)
+*  add dto to SlackCommandDto filename (105f8244)
+
 #### 0.0.10 (2022-03-06)
 
 ##### Continuous Integration
