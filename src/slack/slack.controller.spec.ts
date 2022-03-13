@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { WalletService } from '../wallet/wallet.service';
 import { WalletServiceStub } from '../__mocks__/wallet/wallet.service.stub';
-import { SlackCommandDto } from './dto/slack-command';
+import { SlackCommandDto } from './dto/slack-command.dto';
 import { ErrorResponseContent } from './response-contents/error-response-content';
 import { OkResponseContent } from './response-contents/ok-response-content';
 import { SlackController } from './slack.controller';
