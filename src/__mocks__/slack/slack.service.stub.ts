@@ -1,8 +1,8 @@
 export class SlackServiceStub {
-  sendSol() {
+  parseSendSol() {
     return;
   }
-  airdropSol() {
+  parseAirdropSol() {
     return;
   }
 }

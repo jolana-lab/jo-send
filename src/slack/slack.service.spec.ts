@@ -24,7 +24,7 @@ describe('SlackService', () => {
         text: '@username 1',
       };
       try {
-        service.sendSol(payload);
+        service.parseSendSol(payload);
       } catch (e) {
         expect(e.message).toEqual('SOL sender is required.');
       }
@@ -36,7 +36,7 @@ describe('SlackService', () => {
         text: '@username 1 extra stuff',
       };
       try {
-        service.sendSol(payload);
+        service.parseSendSol(payload);
       } catch (e) {
         expect(e.message).toEqual(
           'Invalid format. Please use `@user <sol-amount>`',
@@ -50,7 +50,7 @@ describe('SlackService', () => {
         text: 'username 1',
       };
       try {
-        service.sendSol(payload);
+        service.parseSendSol(payload);
       } catch (e) {
         expect(e.message).toEqual(
           'Invalid receiver format. Please make sure `@` in front of the username.',
@@ -64,7 +64,7 @@ describe('SlackService', () => {
         text: '@username rich',
       };
       try {
-        service.sendSol(payload);
+        service.parseSendSol(payload);
       } catch (e) {
         expect(e.message).toEqual('Invalid SOL amount. It should be a number.');
       }
@@ -83,7 +83,7 @@ describe('SlackService', () => {
         toUsername,
         sol,
       };
-      const result = service.sendSol(payload);
+      const result = service.parseSendSol(payload);
       expect(result).toEqual(expectedResult);
     });
   });
@@ -95,7 +95,7 @@ describe('SlackService', () => {
         text: '1',
       };
       try {
-        service.airdropSol(payload);
+        service.parseAirdropSol(payload);
       } catch (e) {
         expect(e.message).toEqual('SOL sender is required.');
       }
@@ -107,7 +107,7 @@ describe('SlackService', () => {
         text: '1 extra stuff',
       };
       try {
-        service.airdropSol(payload);
+        service.parseAirdropSol(payload);
       } catch (e) {
         expect(e.message).toEqual('Invalid format. Please use `<sol-amount>`');
       }
@@ -119,7 +119,7 @@ describe('SlackService', () => {
         text: 'rich',
       };
       try {
-        service.airdropSol(payload);
+        service.parseAirdropSol(payload);
       } catch (e) {
         expect(e.message).toEqual('Invalid SOL amount. It should be a number.');
       }
@@ -136,7 +136,7 @@ describe('SlackService', () => {
         username,
         sol,
       };
-      const result = service.airdropSol(payload);
+      const result = service.parseAirdropSol(payload);
       expect(result).toEqual(expectedResult);
     });
   });

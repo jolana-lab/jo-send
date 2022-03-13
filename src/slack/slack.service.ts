@@ -3,7 +3,7 @@ import { SlackCommandDto } from './dto/slack-command.dto';
 
 @Injectable()
 export class SlackService {
-  sendSol(body: SlackCommandDto): {
+  parseSendSol(body: SlackCommandDto): {
     fromUsername: string;
     toUsername: string;
     sol: number;
@@ -38,7 +38,7 @@ export class SlackService {
     };
   }
 
-  airdropSol(body: SlackCommandDto): {
+  parseAirdropSol(body: SlackCommandDto): {
     username: string;
     sol: number;
   } {

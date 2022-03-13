@@ -47,7 +47,7 @@ describe('SlackController', () => {
     };
 
     it('success', async () => {
-      jest.spyOn(slackService, 'sendSol').mockReturnValue({
+      jest.spyOn(slackService, 'parseSendSol').mockReturnValue({
         fromUsername,
         toUsername,
         sol,
@@ -60,7 +60,7 @@ describe('SlackController', () => {
       expect(result).toEqual(expectedResult);
     });
     it('send error message', async () => {
-      jest.spyOn(slackService, 'sendSol').mockImplementation(() => {
+      jest.spyOn(slackService, 'parseSendSol').mockImplementation(() => {
         throw new Error('error');
       });
       const expectedResult = new ErrorResponseContent('error');
@@ -82,7 +82,7 @@ describe('SlackController', () => {
     );
 
     it('success', async () => {
-      jest.spyOn(slackService, 'airdropSol').mockReturnValue({
+      jest.spyOn(slackService, 'parseAirdropSol').mockReturnValue({
         username,
         sol,
       });
@@ -91,7 +91,7 @@ describe('SlackController', () => {
     });
 
     it('send error message', async () => {
-      jest.spyOn(slackService, 'airdropSol').mockImplementation(() => {
+      jest.spyOn(slackService, 'parseAirdropSol').mockImplementation(() => {
         throw new Error('error');
       });
       const expectedResult = new ErrorResponseContent('error');

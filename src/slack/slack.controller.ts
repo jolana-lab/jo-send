@@ -33,7 +33,8 @@ export class SlackController {
   @Post('send-sol')
   async sendSol(@Body() body: SlackCommandDto): Promise<ResponseContent> {
     try {
-      const { fromUsername, toUsername, sol } = this.slackService.sendSol(body);
+      const { fromUsername, toUsername, sol } =
+        this.slackService.parseSendSol(body);
       await this.slackQueue.add('send-sol', {
         fromUsername,
         toUsername,
@@ -62,7 +63,7 @@ export class SlackController {
   @Post('airdrop-sol')
   async airdropSol(@Body() body: SlackCommandDto): Promise<ResponseContent> {
     try {
-      const { username, sol } = this.slackService.airdropSol(body);
+      const { username, sol } = this.slackService.parseAirdropSol(body);
       await this.slackQueue.add('airdrop-sol', {
         username,
         sol,
