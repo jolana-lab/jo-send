@@ -32,6 +32,8 @@ It's an application that allows users **send crypto coins/tokens to friends on c
 
 - Airdrop some SOLs to user's wallet (devnet or localhost)
 
+The full endpoints are shown in [http://localhost:3030/api/](http://localhost:3030/api/).
+
 ## Documents
 
 - [Contributing](./CONTRIBUTING.md)
