@@ -113,7 +113,7 @@ This setup needs you to install the software on your machine.
 ngrok http 3030
 ```
 
-- update the `Request URL` in the **slack api**
+More details are presented in [slack document](./tech-support/slack.md).
 
 ## Environment variables
 
