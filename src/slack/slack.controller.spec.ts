@@ -38,14 +38,15 @@ describe('SlackController', () => {
   });
 
   describe('should send sol', () => {
+    const fromUsername = 'fromUsername';
+    const toUsername = 'toUsername';
+    const sol = 1;
+    const payload: SlackCommandDto = {
+      user_name: `${fromUsername}`,
+      text: `@${toUsername} ${sol}`,
+    };
+
     it('success', async () => {
-      const fromUsername = 'fromUsername';
-      const toUsername = 'toUsername';
-      const sol = 1;
-      const payload: SlackCommandDto = {
-        user_name: `${fromUsername}`,
-        text: `@${toUsername} ${sol}`,
-      };
       jest.spyOn(slackService, 'sendSol').mockReturnValue({
         fromUsername,
         toUsername,
@@ -54,6 +55,15 @@ describe('SlackController', () => {
       const expectedResult = new OkResponseContent(
         `${fromUsername} sent ${sol} SOL to ${toUsername}`,
       );
+
+      const result = await controller.sendSol(payload);
+      expect(result).toEqual(expectedResult);
+    });
+    it('send error message', async () => {
+      jest.spyOn(slackService, 'sendSol').mockImplementation(() => {
+        throw new Error('error');
+      });
+      const expectedResult = new ErrorResponseContent('error');
 
       const result = await controller.sendSol(payload);
       expect(result).toEqual(expectedResult);
