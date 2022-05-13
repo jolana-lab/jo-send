@@ -13,17 +13,14 @@ Sending crypto as easy as sending messages
 ## Supported blockchains
 
 - [x] Solana
-- [ ] Terra
 
 ## Supported crypto coins/tokens
 
 - [x] SOL
-- [ ] UST
 
 ## Supported chat applications
 
 - [x] [Slack](./docs/tech-support/slack.md)
-- [ ] Discord
 
 ## Functionalities
 
